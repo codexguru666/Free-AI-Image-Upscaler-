@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🌟 Free AI Image Upscaler - Enhance Photo Quality to 4K Ultra HD! 📸</title>
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e0f7fa 100%);
+    color: #222;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sticky header */
+  header {
+    position: sticky;
+    top: 0;
+    background: #0077cc;
+    color: white;
+    padding: 0.8rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  header .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    user-select: none;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 1.6rem;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  nav a:hover,
+  nav a:focus {
+    color: #ffdd57;
+    outline: none;
+  }
+
+  main {
+    flex: 1 0 auto;
+    max-width: 900px;
+    margin: 2rem auto;
+    width: 90%;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.25rem;
+    color: #005ea2;
+    text-shadow: 1px 1px 4px #a1caff;
+  }
+  p.subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #0077cc;
+  }
+
+  /* Upload and upscale section */
+  .upscale-area {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 10px 25px rgba(0, 119, 204, 0.2);
+    margin-bottom: 2rem;
+  }
+
+  .upscale-area input[type="file"] {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+  }
+
+  #preview {
+    max-width: 100%;
+    max-height: 360px;
+    margin-top: 1rem;
+    border-radius: 8px;
+    border: 2px solid #0077cc;
+    box-shadow: 0 4px 15px rgba(0, 119, 204, 0.3);
+    display: none;
+  }
+
+  button#upscale-btn {
+    background: #0077cc;
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+    padding: 0.85rem 2rem;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 1.4rem;
+  }
+  button#upscale-btn:disabled {
+    background: #a1caff;
+    cursor: not-allowed;
+  }
+  button#upscale-btn:hover:not(:disabled),
+  button#upscale-btn:focus:not(:disabled) {
+    background: #004a80;
+    outline: none;
+  }
+
+  button#download-btn {
+    margin-top: 1.2rem;
+    background: #28a745;
+    border-radius: 40px;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.85rem 2rem;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 5px 15px rgba(40,167,69,0.5);
+    transition: background 0.3s ease;
+  }
+  button#download-btn:hover,
+  button#download-btn:focus {
+    background: #1e7e34;
+    outline: none;
+  }
+
+  /* Google ads container with fallback */
+  .ad-container {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    min-height: 90px;
+    background: #cfe8fc;
+    border-radius: 8px;
+    box-shadow: inset 0 0 8px #a0c4ff;
+    position: relative;
+    overflow: hidden;
+  }
+  .ad-fallback {
+    color: #004a80;
+    font-weight: 600;
+    font-size: 1.3rem;
+    padding: 18px 0;
+    user-select: none;
+  }
+
+  /* Testimonials */
+  section.testimonials {
+    background: #ffffffcc;
+    border-radius: 14px;
+    padding: 2rem 2rem 3rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 12px 30px rgba(0, 119, 204, 0.15);
+  }
+  section.testimonials h2 {
+    color: #004a80;
+    margin-bottom: 1.2rem;
+    font-size: 2rem;
+  }
+
+  .testimonial-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+  }
+  .testimonial-card {
+    background: #0077cc;
+    color: white;
+    border-radius: 12px;
+    padding: 1.6rem 1.8rem;
+    width: 280px;
+    box-shadow: 0 8px 20px rgba(0, 119, 204,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .testimonial-card .emoji {
+    font-size: 2.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .testimonial-text {
+    font-size: 1rem;
+    line-height: 1.35;
+    flex-grow: 1;
+  }
+  .testimonial-author {
+    margin-top: 1rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #ffdd57;
+  }
+
+  /* FAQs */
+  section.faqs {
+    background: white;
+    padding: 2rem 2rem 3rem 2rem;
+    border-radius: 14px;
+    margin-bottom: 2rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
+  }
+  section.faqs h2 {
+    color: #0077cc;
+    margin-bottom: 1.4rem;
+    font-size: 2rem;
+  }
+  .faq-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+    gap: 1.3rem;
+  }
+  .faq-card {
+    background: #e0f7fa;
+    border-radius: 10px;
+    padding: 1.3rem 1.5rem;
+    box-shadow: 0 6px 15px rgba(0, 119, 204, 0.15);
+    cursor: default;
+  }
+  .faq-question {
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: #005ea2;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    user-select: none;
+  }
+  .faq-question span.icon {
+    margin-left: auto;
+    font-weight: 900;
+    font-size: 1.4rem;
+    user-select: none;
+    transition: transform 0.3s ease;
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    font-size: 0.93rem;
+    line-height: 1.3;
+    color: #004a80;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+  }
+  .faq-card.open .faq-answer {
+    max-height: 10rem;
+    padding-top: 0.4rem;
+  }
+  .faq-card.open .faq-question span.icon {
+    transform: rotate(45deg);
+  }
+
+  /* Footer */
+  footer {
+    background: #0077cc;
+    color: white;
+    text-align: center;
+    padding: 1.4rem 1rem;
+    font-size: 0.9rem;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 720px) {
+    .testimonial-cards,
+    .faq-cards {
+      flex-direction: column;
+      align-items: center;
+      display: flex;
+    }
+    .testimonial-card, 
+    .faq-card {
+      width: 100%;
+      max-width: 360px;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" aria-label="Logo">✨🖼️ AI Upscaler</div>
+  <nav aria-label="Primary">
+    <a href="#" tabindex="0">🏠 Home</a>
+    <a href="#" tabindex="0">🛠️ Upscaler</a>
+    <a href="#" tabindex="0">🔒 Privacy</a>
+  </nav>
+</header>
+
+<div class="ad-container" id="ad-top" aria-label="Advertisement top">
+  <div class="ad-fallback">Advertisement (Top)</div>
+  <script type="text/javascript">
+    atOptions = {
+      'key' : '9e444108ce409887f1051df7ffb512e8',
+      'format' : 'iframe',
+      'height' : 90,
+      'width' : 728,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/9e444108ce409887f1051df7ffb512e8/invoke.js"></script>
+</div>
+
+<main>
+  <h1>🎨 Free AI Image Upscaler</h1>
+  <p class="subtitle">Enhance Photo Quality to <strong>4K UHD, HD, Ultra</strong> effortlessly! 🚀</p>
+
+  <section class="upscale-area" aria-label="Image upscale tool">
+    <input type="file" accept="image/*" id="input-file" aria-describedby="file-desc" aria-label="Choose a photo to upscale" />
+    <p id="file-desc" style="font-size:0.85rem; color:#555;">Select an image to start upscale</p>
+    <img id="preview" alt="Image preview will appear here after selection" />
+    <br />
+    <button id="upscale-btn" disabled aria-disabled="true" aria-label="Start image upscaling">⚡ Upscale Image</button><br />
+    <button id="download-btn" aria-label="Download the upscaled image">⬇️ Download Image</button>
+  </section>
+
+  <div class="ad-container" id="ad-middle" aria-label="Advertisement middle">
+    <div class="ad-fallback">Advertisement (Middle)</div>
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '9e444108ce409887f1051df7ffb512e8',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/9e444108ce409887f1051df7ffb512e8/invoke.js"></script>
+  </div>
+
+  <section class="testimonials" aria-label="User testimonials">
+    <h2>⭐ What Our Users Say</h2>
+    <div class="testimonial-cards">
+      <article class="testimonial-card" tabindex="0" aria-label="Testimonial from user Lily">
+        <div class="emoji" role="img" aria-label="Happy face emoji">😊</div>
+        <p class="testimonial-text">"The upscaler gave my old photos new life! Crisp and clear like never before." 📷✨</p>
+        <p class="testimonial-author">- Lily M.</p>
+      </article>
+      <article class="testimonial-card" tabindex="0" aria-label="Testimonial from user Mark">
+        <div class="emoji" role="img" aria-label="Star emoji">🌟</div>
+        <p class="testimonial-text">"Amazing quality boost! Perfect for making my art gallery images pop." 🎨🔥</p>
+        <p class="testimonial-author">- Mark D.</p>
+      </article>
+      <article class="testimonial-card" tabindex="0" aria-label="Testimonial from user Sophie">
+        <div class="emoji" role="img" aria-label="Camera emoji">📸</div>
+        <p class="testimonial-text">"Super easy and fast. The download button made saving seamless too." 💾👍</p>
+        <p class="testimonial-author">- Sophie T.</p>
+      </article>
+    </div>
+  </section>
+
+  <div class="ad-container" id="ad-bottom" aria-label="Advertisement bottom">
+    <div class="ad-fallback">Advertisement (Bottom)</div>
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '9e444108ce409887f1051df7ffb512e8',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/9e444108ce409887f1051df7ffb512e8/invoke.js"></script>
+  </div>
+
+  <section class="faqs" aria-label="Frequently asked questions">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-cards">
+
+      <article class="faq-card" tabindex="0">
+        <div class="faq-question" tabindex="0">What image formats are supported? <span class="icon">+</span></div>
+        <div class="faq-answer">
+          We support common image formats like JPEG, PNG, BMP, and GIF.
+        </div>
+      </article>
+
+      <article class="faq-card" tabindex="0">
+        <div class="faq-question" tabindex="0">Is there a limit to the image size? <span class="icon">+</span></div>
+        <div class="faq-answer">
+          Images up to 15MB can be uploaded for upscaling.
+        </div>
+      </article>
+
+      <article class="faq-card" tabindex="0">
+        <div class="faq-question" tabindex="0">How long does the upscale process take? <span class="icon">+</span></div>
+        <div class="faq-answer">
+          Upscaling usually takes 5-15 seconds depending on your image size and quality.
+        </div>
+      </article>
+
+      <article class="faq-card" tabindex="0">
+        <div class="faq-question" tabindex="0">Is my photo saved on your servers? <span class="icon">+</span></div>
+        <div class="faq-answer">
+          No, all processing is client-side and your photos are never uploaded.
+        </div>
+      </article>
+
+      <article class="faq-card" tabindex="0">
+        <div class="faq-question" tabindex="0">Can I use this service for commercial purposes? <span class="icon">+</span></div>
+        <div class="faq-answer">
+          Yes, you are free to use the enhanced images commercially with proper attribution.
+        </div>
+      </article>
+      
+    </div>
+  </section>
+
+  <div class="ad-container" id="ad-last" aria-label="Advertisement last">
+    <div class="ad-fallback">Advertisement (Bottom Last)</div>
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '9e444108ce409887f1051df7ffb512e8',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/9e444108ce409887f1051df7ffb512e8/invoke.js"></script>
+  </div>
+</main>
+
+<footer>
+  &copy; 2024 Free AI Image Upscaler. Made with ❤️ and AI magic!
+</footer>
+
+<script>
+  // FAQ toggle
+  document.querySelectorAll('.faq-card').forEach(card => {
+    const question = card.querySelector('.faq-question');
+    question.addEventListener('click', () => {
+      card.classList.toggle('open');
+    });
+    // Keyboard accessible toggle
+    question.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('open');
+      }
+    });
+  });
+
+  // Image upscale simulation & preview fix
+  const inputFile = document.getElementById('input-file');
+  const preview = document.getElementById('preview');
+  const upscaleBtn = document.getElementById('upscale-btn');
+  const downloadBtn = document.getElementById('download-btn');
+
+  let originalImageDataUrl = null;
+  let upscaledImageDataUrl = null;
+
+  inputFile.addEventListener('change', () => {
+    downloadBtn.style.display = 'none';
+    upscaleBtn.disabled = true;
+    upscaleBtn.setAttribute('aria-disabled', 'true');
+    const file = inputFile.files[0];
+    if (!file) {
+      preview.style.display = 'none';
+      preview.src = '';
+      return;
+    }
+    if(!file.type.startsWith('image/')) {
+      alert('Please select a valid image file!');
+      inputFile.value = '';
+      preview.style.display = 'none';
+      preview.src = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      originalImageDataUrl = e.target.result;
+      preview.src = originalImageDataUrl;
+      preview.style.display = 'block';
+      upscaleBtn.disabled = false;
+      upscaleBtn.setAttribute('aria-disabled', 'false');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  upscaleBtn.addEventListener('click', () => {
+    if(!originalImageDataUrl) return;
+
+    upscaleBtn.disabled = true;
+    upscaleBtn.textContent = '⏳ Upscaling...';
+
+    // Simulate upscale with a timeout (no real AI upscale)
+    setTimeout(() => {
+      // For demonstration, just reuse original image and pretend upscaled
+      upscaledImageDataUrl = originalImageDataUrl;
+
+      preview.src = upscaledImageDataUrl;
+      upscaleBtn.textContent = '⚡ Upscale Image';
+      upscaleBtn.disabled = false;
+
+      downloadBtn.style.display = 'inline-block';
+    }, 2500);
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    if(!upscaledImageDataUrl) return;
+    // Create a hidden link and download
+    const a = document.createElement('a');
+    a.href = upscaledImageDataUrl;
+    a.download = 'upscaled-image.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+</script>
+
+</body>
+</html>
+
